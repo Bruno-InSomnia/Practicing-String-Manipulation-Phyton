@@ -5,6 +5,15 @@ class ExtratorURL:
         self.url = self.satizador_url(url)
         self.valida_url()
 
+    def __len__(self):
+        return len(self.url)
+
+    def __str__(self):
+        return self.url + "\n" + "URL Base: " + self.get_url_base() + "\n" + "Parâmetros: " + self.get_url_parametro()
+
+    def __eq__(self, other):
+        return self.url == other.url
+
     def satizador_url(self, url):
         if type(url) == str:
             return url.strip()
@@ -20,7 +29,7 @@ class ExtratorURL:
         if not match:
             raise ValueError('A URL não é válida')
 
-    def get_url_base(self, url):
+    def get_url_base(self):
         indice_interrogacao = self.url.find('?')
         url_base = self.url[:indice_interrogacao]
         return url_base
@@ -40,14 +49,17 @@ class ExtratorURL:
             valor_busca = self.get_url_parametro()[indice_valor:indice_e_comercial]
         return valor_busca
 
+    def get_conversao(self):
+        pass
+
 
 url1 = ExtratorURL('https://bytebank.com/cambio?moedaOrigem=real&moedaDestino=dolar&quantidade=100')
-valor_quantidade = url1.get_valor_buscado('quantidade')
-print(valor_quantidade)
+
+print(url1)
 
 # parametro_busca = 'moedaOrigem'
 
-
+# valor_quantidade = url1.get_valor_buscado('quantidade')
 # print(indice_interrogacao)
 # print(url_parametros)
 # print(indice_parametro_busca)
