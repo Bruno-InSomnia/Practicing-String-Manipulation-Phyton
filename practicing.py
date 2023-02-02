@@ -9,7 +9,7 @@ class ExtratorURL:
         return len(self.url)
 
     def __str__(self):
-        return self.url + "\n" + "URL Base: " + self.get_url_base() + "\n" + "Parâmetros: " + self.get_url_parametro()
+        return self.url + "\n" + "URL Base: " + self.get_url_base() + "\n" + "Parâmetros: " + self.get_url_parametro() + "\n" + 'Conversão: ' + f'{self.get_conversao():.2f}' + ' ' + self.get_moeda()
 
     def __eq__(self, other):
         return self.url == other.url
@@ -50,12 +50,30 @@ class ExtratorURL:
         return valor_busca
 
     def get_conversao(self):
-        pass
+        if self.get_valor_buscado('moedaOrigem') == 'real':
+            conversao = int(self.get_valor_buscado('quantidade')) / 5.50
+        else:
+            conversao = int(self.get_valor_buscado('quantidade')) * 5.50
+        return conversao
+
+    def get_moeda(self):
+        if self.get_conversao() <= 1:
+            moeda = self.get_valor_buscado('moedaOrigem')
+        else:
+            if self.get_valor_buscado('moedaOrigem') == 'dolar':
+                moeda = 'reais'
+            else:
+                moeda = 'dólares'
+        return moeda
+
+
 
 
 url1 = ExtratorURL('https://bytebank.com/cambio?moedaOrigem=real&moedaDestino=dolar&quantidade=100')
+url2 = ExtratorURL('https://bytebank.com/cambio?moedaOrigem=dolar&moedaDestino=real&quantidade=5')
 
 print(url1)
+print(url2)
 
 # parametro_busca = 'moedaOrigem'
 
